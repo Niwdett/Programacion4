@@ -1,0 +1,44 @@
+package parcial.menu;
+
+import parcial.ingreso.Registro;
+import parcial.utils.InputHandler;
+
+public class Menu {
+    private int opcion;
+    private Registro registro;
+    private InputHandler inputHandler;
+
+    public Menu() {
+        this.registro = new Registro();
+        this.inputHandler = new InputHandler();
+    }
+
+    public void mostrarOpciones() {
+        inputHandler.mostrarOpciones();
+    }
+
+    public void obtenerOpcion() {
+        this.opcion = inputHandler.obtenerOpcion();
+    }
+
+    public void ejecutarMenu() {
+        while (opcion != 3) {
+            mostrarOpciones();
+            obtenerOpcion();
+            switch (opcion) {
+                case 1:
+                    registro.registrarUsuario();
+                    break;
+                case 2:
+                    registro.iniciarSesion();
+                    break;
+                case 3:
+                    System.out.println("Saliendo del menú...");
+                    break;
+                default:
+                    System.out.println("Opción no válida, por favor ingrese una opción válida.");
+                    break;
+            }
+        }
+    }
+}
