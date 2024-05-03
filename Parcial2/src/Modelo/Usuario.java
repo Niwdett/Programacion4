@@ -32,9 +32,6 @@ public class Usuario {
     }
 
     private boolean correoElectronicoValido(String correoElectronico) {
-        // Implementar lógica de validación de correo electrónico, por ejemplo, usando expresiones regulares
-        // Devolver true si es válido, false si no
-        // Aquí solo se coloca un placeholder
         return correoElectronico.contains("@");
     }
 
