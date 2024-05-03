@@ -27,7 +27,6 @@ public class VentanaPrincipal {
         realizarReservaButton.setAlignmentX(JButton.CENTER_ALIGNMENT); // Centrar el botón horizontalmente
         panel.add(realizarReservaButton);
 
-        // Añade más opciones para el usuario aquí
 
         buscarHabitacionesButton.addActionListener(e -> {
             // Lógica para abrir la ventana de búsqueda de habitaciones
