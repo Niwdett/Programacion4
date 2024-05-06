@@ -11,6 +11,18 @@ public class Usuario {
     private String telefonoContacto;
     private String contraseña;
 
+    public Usuario() {
+        this.tipoIdentificacion = "CC";
+        this.documentoIdentificacion = "00000";
+        this.nombres = "nombre";
+        this.apellidos = "apellido";
+        this.correoElectronico = "correo@example.com";
+        this.direccionResidencia = "direccion";
+        this.ciudadResidencia = "ciudad";
+        this.telefonoContacto = "0000000000";
+        this.contraseña = "contraseña";
+    }
+
     public Usuario(String tipoIdentificacion, String documentoIdentificacion, String nombres, String apellidos,
                    String correoElectronico, String direccionResidencia, String ciudadResidencia,
                    String telefonoContacto, String contraseña) {
@@ -18,21 +30,11 @@ public class Usuario {
         this.documentoIdentificacion = documentoIdentificacion;
         this.nombres = nombres;
         this.apellidos = apellidos;
-        
-        if (correoElectronicoValido(correoElectronico)) {
-            this.correoElectronico = correoElectronico;
-        } else {
-            throw new IllegalArgumentException("Correo electrónico no válido");
-        }
-        
+        this.correoElectronico = correoElectronico;
         this.direccionResidencia = direccionResidencia;
         this.ciudadResidencia = ciudadResidencia;
         this.telefonoContacto = telefonoContacto;
         this.contraseña = contraseña;
-    }
-
-    private boolean correoElectronicoValido(String correoElectronico) {
-        return correoElectronico.contains("@");
     }
 
     // Métodos getters y setters
@@ -73,11 +75,7 @@ public class Usuario {
     }
 
     public void setCorreoElectronico(String correoElectronico) {
-        if (correoElectronicoValido(correoElectronico)) {
-            this.correoElectronico = correoElectronico;
-        } else {
-            throw new IllegalArgumentException("Correo electrónico no válido");
-        }
+        this.correoElectronico = correoElectronico;
     }
 
     public String getDireccionResidencia() {

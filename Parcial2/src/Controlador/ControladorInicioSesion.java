@@ -1,19 +1,18 @@
 package Controlador;
 
 import Modelo.Usuario;
-import Vista.VentanaInicioSesion;
-
 import java.util.ArrayList;
 
 public class ControladorInicioSesion {
-    private static ArrayList<Usuario> usuarios = new ArrayList<>();
+    private ArrayList<Usuario> usuarios;
 
-    public static void mostrarVentanaInicioSesion() {
-        VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion();
-        ventanaInicioSesion.mostrar();
+    public ControladorInicioSesion(ArrayList<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 
-    public static void iniciarSesion(String correo, String contraseña) {
+    private boolean loginExitoso = false;
+
+    public boolean iniciarSesion(String correo, String contraseña) {
         if (camposValidos(correo, contraseña)) {
             boolean usuarioEncontrado = false;
             for (Usuario usuario : usuarios) {
@@ -24,27 +23,28 @@ public class ControladorInicioSesion {
             }
 
             if (usuarioEncontrado) {
-                mostrarMensajeInicioSesionExitoso(); // Mensaje específico para inicio de sesión exitoso
+                loginExitoso = true;
+                mostrarMensajeInicioSesionExitoso();
             } else {
-                mostrarMensajeErrorInicioSesion(); // Mensaje específico para error en inicio de sesión
+                loginExitoso = false;
+                mostrarMensajeErrorInicioSesion();
             }
         } else {
-            mostrarMensajeErrorInicioSesion(); // Mensaje genérico para campos vacíos
+            loginExitoso = false;
+            mostrarMensajeErrorInicioSesion();
         }
+        return loginExitoso;
     }
 
-    private static boolean camposValidos(String correo, String contraseña) {
-        // Validación de campos no vacíos
+    private boolean camposValidos(String correo, String contraseña) {
         return !correo.isEmpty() && !contraseña.isEmpty();
     }
 
-    private static void mostrarMensajeInicioSesionExitoso() {
-        // Mensaje específico para inicio de sesión exitoso
+    private void mostrarMensajeInicioSesionExitoso() {
         System.out.println("Inicio de sesión exitoso. Bienvenido a MyHotel.");
     }
 
-    private static void mostrarMensajeErrorInicioSesion() {
-        // Mensaje específico para error en inicio de sesión
+    public void mostrarMensajeErrorInicioSesion() {
         System.out.println("Error: Correo electrónico o contraseña incorrectos.");
     }
 }

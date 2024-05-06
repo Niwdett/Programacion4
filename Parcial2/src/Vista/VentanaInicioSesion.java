@@ -1,57 +1,98 @@
 package Vista;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import Controlador.ControladorInicioSesion;
 
-public class VentanaInicioSesion {
-    private JFrame ventana;
-    private JTextField correoField;
-    private JPasswordField contraseñaField;
 
-    public VentanaInicioSesion() {
-        ventana = new JFrame("Inicio de sesión");
-        ventana.setSize(300, 200);
-        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        ventana.setLocationRelativeTo(null);
+// Interfaz gráfica para el inicio de sesión
+public class VentanaInicioSesion extends JFrame {
 
-        JPanel panel = new JPanel();
-        ventana.getContentPane().add(panel);
-        panel.setLayout(null);
+    private static ControladorInicioSesion controladorInicioSesion;
 
-        JLabel correoLabel = new JLabel("Correo electrónico:");
-        correoLabel.setBounds(10, 20, 120, 20);
-        panel.add(correoLabel);
-
-        correoField = new JTextField();
-        correoField.setBounds(130, 20, 150, 20);
-        panel.add(correoField);
-
-        JLabel contraseñaLabel = new JLabel("Contraseña:");
-        contraseñaLabel.setBounds(10, 50, 120, 20);
-        panel.add(contraseñaLabel);
-
-        contraseñaField = new JPasswordField();
-        contraseñaField.setBounds(130, 50, 150, 20);
-        panel.add(contraseñaField);
-
-        JButton loginButton = new JButton("Iniciar sesión");
-        loginButton.setBounds(100, 90, 120, 30);
-        panel.add(loginButton);
-
-        loginButton.addActionListener(e -> {
-            String correo = correoField.getText();
-            String contraseña = new String(contraseñaField.getPassword());
-
-            // Validación de campos vacíos
-            if (correo.isEmpty() || contraseña.isEmpty()) {
-                JOptionPane.showMessageDialog(ventana, "Por favor, complete todos los campos.");
-            } else {
-                ControladorInicioSesion.iniciarSesion(correo, contraseña);
-            }
-        });
+    // Constructor de la interfaz
+    public VentanaInicioSesion(ControladorInicioSesion controladorInicioSesion) {
+        VentanaInicioSesion.controladorInicioSesion = controladorInicioSesion;
+        crearComponentes();
     }
 
-    public void mostrar() {
-        ventana.setVisible(true);
+    public VentanaInicioSesion(Object controladorInicioSesion2) {
+        //TODO Auto-generated constructor stub
+    }
+
+    // Componentes de la interfaz
+    private JTextField txtCorreo;
+    private JPasswordField txtContrasena;
+
+    // Método para crear los componentes de la interfaz
+    public void crearComponentes() {
+        setTitle("My Hotel");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        // Crear panel principal
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridLayout(3, 1, 10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // Componentes de correo y contraseña
+        JLabel lblCorreo = new JLabel("Correo:");
+        txtCorreo = new JTextField(20);
+        JLabel lblContrasena = new JLabel("Contraseña:");
+        txtContrasena = new JPasswordField(20);
+
+        // Botón de iniciar sesión
+        JButton btnIniciarSesion = new JButton("Iniciar Sesión");
+
+        // Agregar ActionListener al botón de iniciar sesión
+        btnIniciarSesion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                iniciarSesion();
+            }
+        });
+
+        // Panel para el botón de iniciar sesión
+        JPanel botonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        botonPanel.add(btnIniciarSesion);
+
+        // Agregar componentes al panel principal
+        mainPanel.add(lblCorreo);
+        mainPanel.add(txtCorreo);
+        mainPanel.add(lblContrasena);
+        mainPanel.add(txtContrasena);
+        mainPanel.add(botonPanel);
+
+        // Agregar panel principal al JFrame
+        add(mainPanel);
+
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    // Método para iniciar sesión
+    private void iniciarSesion() {
+        String correo = txtCorreo.getText();
+        String contrasena = new String(txtContrasena.getPassword());
+        boolean loginExitoso = controladorInicioSesion.iniciarSesion(correo, contrasena);
+        if (loginExitoso) {
+            JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso. Bienvenido a MyHotel.");
+            dispose(); // Cerrar la ventana de inicio de sesión
+            // Aquí puedes abrir la siguiente interfaz después de un inicio de sesión exitoso
+        } else {
+            JOptionPane.showMessageDialog(null, "Error: Correo electrónico o contraseña incorrectos.");
+        }
+    }
+
+    // Método main para probar la interfaz
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new VentanaInicioSesion(controladorInicioSesion);
+            }
+        });
     }
 }

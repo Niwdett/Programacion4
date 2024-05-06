@@ -9,12 +9,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class VentanaRegistro extends JFrame {
+    private ControladorRegistro controladorRegistro;
 
-    private JTextField tipoIdentificacionField, documentoIdentificacionField, nombresField, apellidosField,
-            correoElectronicoField, direccionResidenciaField, ciudadResidenciaField, telefonoContactoField,
-            contraseñaField, confirmarContraseñaField;
+    public VentanaRegistro(ControladorRegistro controladorRegistro) {
+        this.controladorRegistro = controladorRegistro;
+        componentesRegistro();
+    }
 
-    public VentanaRegistro() {
+    private JTextField txtTipoIdentificacion, txtDocumentoIdentificacion, txtNombre, txtApellido,
+                txtCorreo, txtDireccionResidencia, txtCiudadResidencia, txtTelefono, txtContrasena,
+                txtConfirmarContrasena;
+
+    public void componentesRegistro() {
         setTitle("Registro de Usuario");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -25,38 +31,38 @@ public class VentanaRegistro extends JFrame {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Crear campos de texto para el registro
-        tipoIdentificacionField = new JTextField(20);
-        documentoIdentificacionField = new JTextField(20);
-        nombresField = new JTextField(20);
-        apellidosField = new JTextField(20);
-        correoElectronicoField = new JTextField(20);
-        direccionResidenciaField = new JTextField(20);
-        ciudadResidenciaField = new JTextField(20);
-        telefonoContactoField = new JTextField(20);
-        contraseñaField = new JPasswordField(20);
-        confirmarContraseñaField = new JPasswordField(20);
+        txtTipoIdentificacion = new JTextField(20);
+        txtDocumentoIdentificacion = new JTextField(20);
+        txtNombre = new JTextField(20);
+        txtApellido = new JTextField(20);
+        txtCorreo = new JTextField(20);
+        txtDireccionResidencia = new JTextField(20);
+        txtCiudadResidencia = new JTextField(20);
+        txtTelefono = new JTextField(20);
+        txtContrasena = new JPasswordField(20);
+        txtConfirmarContrasena = new JPasswordField(20);
 
         // Agregar campos de texto al panel principal
         mainPanel.add(new JLabel("Tipo de Identificación:"));
-        mainPanel.add(tipoIdentificacionField);
+        mainPanel.add(txtTipoIdentificacion);
         mainPanel.add(new JLabel("Documento de Identificación:"));
-        mainPanel.add(documentoIdentificacionField);
+        mainPanel.add(txtDocumentoIdentificacion);
         mainPanel.add(new JLabel("Nombre:"));
-        mainPanel.add(nombresField);
+        mainPanel.add(txtNombre);
         mainPanel.add(new JLabel("Apellido:"));
-        mainPanel.add(apellidosField);
+        mainPanel.add(txtApellido);
         mainPanel.add(new JLabel("Correo:"));
-        mainPanel.add(correoElectronicoField);
+        mainPanel.add(txtCorreo);
         mainPanel.add(new JLabel("Dirección de Residencia:"));
-        mainPanel.add(direccionResidenciaField);
+        mainPanel.add(txtDireccionResidencia);
         mainPanel.add(new JLabel("Ciudad de Residencia:"));
-        mainPanel.add(ciudadResidenciaField);
+        mainPanel.add(txtCiudadResidencia);
         mainPanel.add(new JLabel("Teléfono:"));
-        mainPanel.add(telefonoContactoField);
+        mainPanel.add(txtTelefono);
         mainPanel.add(new JLabel("Contraseña:"));
-        mainPanel.add(contraseñaField);
+        mainPanel.add(txtContrasena);
         mainPanel.add(new JLabel("Confirmar Contraseña:"));
-        mainPanel.add(confirmarContraseñaField);
+        mainPanel.add(txtConfirmarContrasena);
 
         // Agregar botón de registro
         JButton btnRegistrarUsuario = new JButton("Registrar Usuario");
@@ -78,16 +84,16 @@ public class VentanaRegistro extends JFrame {
 
     private void registrarUsuario() {
         // Obtener los datos del formulario
-        String tipoIdentificacion = tipoIdentificacionField.getText();
-        String documentoIdentificacion = documentoIdentificacionField.getText();
-        String nombres = nombresField.getText();
-        String apellidos = apellidosField.getText();
-        String correoElectronico = correoElectronicoField.getText();
-        String direccionResidencia = direccionResidenciaField.getText();
-        String ciudadResidencia = ciudadResidenciaField.getText();
-        String telefonoContacto = telefonoContactoField.getText();
-        String contraseña = new String(((JPasswordField) contraseñaField).getPassword());
-        String confirmarContraseña = new String(((JPasswordField) confirmarContraseñaField).getPassword());
+        String tipoIdentificacion = txtTipoIdentificacion.getText();
+        String documentoIdentificacion = txtDocumentoIdentificacion.getText();
+        String nombres = txtNombre.getText();
+        String apellidos = txtApellido.getText();
+        String correoElectronico = txtCorreo.getText();
+        String direccionResidencia = txtDireccionResidencia.getText();
+        String ciudadResidencia = txtCiudadResidencia.getText();
+        String telefonoContacto = txtTelefono.getText();
+        String contraseña = new String(((JPasswordField) txtContrasena).getPassword());
+        String confirmarContraseña = new String(((JPasswordField) txtConfirmarContrasena).getPassword());
 
         // Validar que las contraseñas coincidan
         if (!contraseña.equals(confirmarContraseña)) {
@@ -96,7 +102,7 @@ public class VentanaRegistro extends JFrame {
         }
 
         // Llamar al controlador para registrar al usuario
-        ControladorRegistro.registrarUsuario(tipoIdentificacion, documentoIdentificacion, nombres, apellidos,
+        controladorRegistro.registrarUsuario(tipoIdentificacion, documentoIdentificacion, nombres, apellidos,
                 correoElectronico, direccionResidencia, ciudadResidencia, telefonoContacto, contraseña);
 
         // Mostrar un mensaje de confirmación
@@ -106,14 +112,12 @@ public class VentanaRegistro extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new VentanaRegistro();
+                // Crear una instancia del controlador
+                ControladorRegistro controladorRegistro = new ControladorRegistro(null);
+
+                // Crear una instancia de la ventana de registro y pasar el controlador como parámetro
+                new VentanaRegistro(controladorRegistro);
             }
         });
     }
-
-    public void mostrar() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mostrar'");
-    }
-
 }
